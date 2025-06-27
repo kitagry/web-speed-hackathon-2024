@@ -1,4 +1,5 @@
-import { Suspense, useCallback, useEffect, useId, useState } from 'react';
+import { Suspense, useCallback, useEffect, useId, useState, useMemo } from 'react';
+import { useDebounce } from 'react-use';
 
 import { useBookList } from '../../features/book/hooks/useBookList';
 import { Box } from '../../foundation/components/Box';
@@ -14,13 +15,23 @@ const SearchPage: React.FC = () => {
   const searchResultsA11yId = useId();
 
   const [isClient, setIsClient] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [keyword, setKeyword] = useState('');
+  
+  // 入力値を300msデバウンスして検索キーワードに設定
+  useDebounce(
+    () => {
+      setKeyword(inputValue);
+    },
+    300,
+    [inputValue]
+  );
 
   const onChangedInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setKeyword(event.target.value);
+      setInputValue(event.target.value);
     },
-    [setKeyword],
+    [setInputValue],
   );
 
   useEffect(() => {
@@ -29,7 +40,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <Box px={Space * 2}>
-      <Input disabled={!isClient} onChange={onChangedInput} />
+      <Input disabled={!isClient} onChange={onChangedInput} value={inputValue} />
       <Box aria-labelledby={searchResultsA11yId} as="section" maxWidth="100%" py={Space * 2} width="100%">
         <Text color={Color.MONO_100} id={searchResultsA11yId} typography={Typography.NORMAL20} weight="bold">
           検索結果
