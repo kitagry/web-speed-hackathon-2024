@@ -12,7 +12,6 @@ import { imageApp } from './images';
 import { internalApp } from './internal';
 import { rankingApp } from './rankings';
 import { releaseApp } from './releases';
-import { termApp } from './term';
 
 const app = new OpenAPIHono();
 
@@ -39,7 +38,6 @@ app.route('/', featureApp);
 app.route('/', releaseApp);
 app.route('/', rankingApp);
 app.route('/', authApp);
-app.route('/', termApp);
 app.route('/', contentApp);
 
 app.route('/', internalApp);
