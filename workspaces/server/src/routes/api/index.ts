@@ -4,6 +4,7 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { authApp } from './auth';
 import { authorApp } from './authors';
 import { bookApp } from './books';
+import { contentApp } from './content';
 import { episodePageApp } from './episodePages';
 import { episodeApp } from './episodes';
 import { featureApp } from './features';
@@ -11,6 +12,7 @@ import { imageApp } from './images';
 import { internalApp } from './internal';
 import { rankingApp } from './rankings';
 import { releaseApp } from './releases';
+import { termApp } from './term';
 
 const app = new OpenAPIHono();
 
@@ -37,6 +39,8 @@ app.route('/', featureApp);
 app.route('/', releaseApp);
 app.route('/', rankingApp);
 app.route('/', authApp);
+app.route('/', termApp);
+app.route('/', contentApp);
 
 app.route('/', internalApp);
 

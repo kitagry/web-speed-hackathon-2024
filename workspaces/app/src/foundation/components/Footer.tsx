@@ -3,12 +3,9 @@ import React, { useId } from 'react';
 import styled from 'styled-components';
 
 import { DialogContentAtom } from '../atoms/DialogContentAtom';
-import { COMPANY } from '../constants/Company';
-import { CONTACT } from '../constants/Contact';
-import { OVERVIEW } from '../constants/Overview';
-import { QUESTION } from '../constants/Question';
-import { TERM } from '../constants/Term';
 import { Color, Space, Typography } from '../styles/variables';
+import { useContent } from '../hooks/useContent';
+import { useTerm } from '../hooks/useTerm';
 
 import { Box } from './Box';
 import { Button } from './Button';
@@ -26,6 +23,11 @@ const _Content = styled.section`
 
 export const Footer: React.FC = () => {
   const [isClient, setIsClient] = React.useState(false);
+  const { term, isLoading: termLoading } = useTerm();
+  const { content: contact, isLoading: contactLoading } = useContent('contact');
+  const { content: question, isLoading: questionLoading } = useContent('question');
+  const { content: company, isLoading: companyLoading } = useContent('company');
+  const { content: overview, isLoading: overviewLoading } = useContent('overview');
 
   React.useEffect(() => {
     setIsClient(true);
@@ -47,7 +49,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {TERM}
+          {termLoading ? '読み込み中...' : term}
         </Text>
       </_Content>,
     );
@@ -61,7 +63,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {CONTACT}
+          {contactLoading ? '読み込み中...' : contact}
         </Text>
       </_Content>,
     );
@@ -75,7 +77,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {QUESTION}
+          {questionLoading ? '読み込み中...' : question}
         </Text>
       </_Content>,
     );
@@ -89,7 +91,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {COMPANY}
+          {companyLoading ? '読み込み中...' : company}
         </Text>
       </_Content>,
     );
@@ -103,7 +105,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {OVERVIEW}
+          {overviewLoading ? '読み込み中...' : overview}
         </Text>
       </_Content>,
     );
@@ -114,19 +116,19 @@ export const Footer: React.FC = () => {
       <Flex align="flex-start" direction="column" gap={Space * 1} justify="flex-start">
         <img alt="Cyber TOON" src="/assets/cyber-toon.svg" />
         <Flex align="start" direction="row" gap={Space * 1.5} justify="center">
-          <_Button disabled={!isClient} onClick={handleRequestToTermDialogOpen}>
+          <_Button disabled={!isClient || termLoading} onClick={handleRequestToTermDialogOpen}>
             利用規約
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToContactDialogOpen}>
+          <_Button disabled={!isClient || contactLoading} onClick={handleRequestToContactDialogOpen}>
             お問い合わせ
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToQuestionDialogOpen}>
+          <_Button disabled={!isClient || questionLoading} onClick={handleRequestToQuestionDialogOpen}>
             Q&A
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToCompanyDialogOpen}>
+          <_Button disabled={!isClient || companyLoading} onClick={handleRequestToCompanyDialogOpen}>
             運営会社
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToOverviewDialogOpen}>
+          <_Button disabled={!isClient || overviewLoading} onClick={handleRequestToOverviewDialogOpen}>
             Cyber TOONとは
           </_Button>
         </Flex>
