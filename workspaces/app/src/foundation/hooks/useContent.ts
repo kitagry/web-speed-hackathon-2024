@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-type ContentType = 'contact' | 'overview' | 'question' | 'company';
+type ContentType = 'contact' | 'overview' | 'question' | 'company' | 'term';
 
 export const useContent = (type: ContentType) => {
   const [content, setContent] = useState<string>('');

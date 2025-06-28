@@ -23,7 +23,7 @@ const _Content = styled.section`
 
 export const Footer: React.FC = () => {
   const [isClient, setIsClient] = React.useState(false);
-  const { term, isLoading: termLoading } = useTerm();
+  const { content: term, isLoading: termLoading } = useContent('term');
   const { content: contact, isLoading: contactLoading } = useContent('contact');
   const { content: question, isLoading: questionLoading } = useContent('question');
   const { content: company, isLoading: companyLoading } = useContent('company');

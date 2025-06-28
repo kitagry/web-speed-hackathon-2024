@@ -5,6 +5,7 @@ import { CONTACT } from '../../../constants/Contact';
 import { OVERVIEW } from '../../../constants/Overview';
 import { QUESTION } from '../../../constants/Question';
 import { COMPANY } from '../../../constants/Company';
+import { TERM } from '../../../constants/Term';
 
 const app = new OpenAPIHono();
 
@@ -13,7 +14,7 @@ const getContentRoute = createRoute({
   path: '/api/v1/content/:type',
   request: {
     params: z.object({
-      type: z.enum(['contact', 'overview', 'question', 'company']),
+      type: z.enum(['contact', 'overview', 'question', 'company', 'term']),
     }),
   },
   responses: {
@@ -51,6 +52,9 @@ app.openapi(getContentRoute, (c) => {
       break;
     case 'company':
       content = COMPANY;
+      break;
+    case 'term':
+      content = TERM;
       break;
     default:
       return c.json({ error: '無効なコンテンツタイプです' }, 400);
