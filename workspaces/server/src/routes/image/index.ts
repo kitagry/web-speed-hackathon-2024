@@ -108,15 +108,15 @@ app.get(
     if (!isSupportedImageFormat(resImgFormat)) {
       throw new HTTPException(501, { message: `Image format: ${resImgFormat} is not supported.` });
     }
-    
+
     const reqImageSize = c.req.valid('query');
     const width = reqImageSize.width;
     const height = reqImageSize.height;
-    
+
     // リサイズが必要な場合、キャッシュファイルをチェック
     if (width != null || height != null) {
       const cacheFilePath = getCacheFilePath(reqImgId, resImgFormat, width, height);
-      
+
       // キャッシュがあればそれを返す
       if (existsSync(cacheFilePath)) {
         c.header('Content-Type', IMAGE_MIME_TYPE[resImgFormat]);
@@ -135,7 +135,7 @@ app.get(
     if (!isSupportedImageFormat(origImgFormat)) {
       throw new HTTPException(500, { message: 'Failed to load image.' });
     }
-    
+
     // リサイズやフォーマット変換が不要な場合はそのまま返す
     if (resImgFormat === origImgFormat && width == null && height == null) {
       c.header('Content-Type', IMAGE_MIME_TYPE[resImgFormat]);
@@ -148,11 +148,11 @@ app.get(
 
     // スケール計算
     const scale = Math.max((width ?? 0) / image.width, (height ?? 0) / image.height) || 1;
-    
+
     // サイズ計算
     const newWidth = width ? Math.ceil(width) : Math.ceil(image.width * scale);
     const newHeight = height ? Math.ceil(height) : Math.ceil(image.height * scale);
-    
+
     // リサイズ処理
     const manipulated = image.resize({
       height: newHeight,
@@ -167,7 +167,7 @@ app.get(
       height: manipulated.height,
       width: manipulated.width,
     });
-    
+
     // リサイズ結果をキャッシュする
     if (width != null || height != null) {
       try {

@@ -15,6 +15,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { useAuthor } from '../../../../features/authors/hooks/useAuthor';
 import { useBookList } from '../../../../features/books/hooks/useBookList';
